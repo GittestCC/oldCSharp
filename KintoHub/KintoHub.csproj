@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>DisTurBinG</Authors>
+    <Company>KintoHub Limited</Company>
+    <Product>KintoHub Utilities</Product>
+    <Description>Optional utilities package for KintoHub!</Description>
+    <Copyright>KintoHub Limited</Copyright>
+    <PackageProjectUrl>www.kintohub.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kintohub/kintohub-csharp</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>csharp kintohub microservices serverless</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.5.0" />
+    <PackageReference Include="Serilog.Sinks.Fluentd" Version="0.2.0" />
+    <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
+  </ItemGroup>
+
+</Project>

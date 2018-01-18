@@ -15,20 +15,29 @@ namespace KintoHub.Logging
         private const string FlientdHostEnvVar = "FLUENTD_HOST";
         private const int DefaultFluentdPort = 5170;
 
-        public ILogger Provide()
+        public ILogger Provide(LogOptions options)
         {
             var fluentdHost = Environment.GetEnvironmentVariable(FlientdHostEnvVar);
 
-            return new SeriLogger(new LoggerConfiguration()
+            var config = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                .WriteTo.Fluentd(new FluentdSinkOptions(fluentdHost, DefaultFluentdPort)
+                .WriteTo.LiterateConsole();
+
+            if ((options & LogOptions.DISABLE_ASP_NET) == LogOptions.DISABLE_ASP_NET)
+            {
+                config.MinimumLevel.Override("Microsoft", LogEventLevel.Information);
+            }
+
+            if ((options & LogOptions.DISABLE_FLUENTD) == LogOptions.DISABLE_FLUENTD)
+            {
+                config.WriteTo.Fluentd(new FluentdSinkOptions(fluentdHost, DefaultFluentdPort)
                 {
                     NoDelay = true
-                })
-                .WriteTo.LiterateConsole()
-                .CreateLogger());
+                });
+            }
+
+            return new SeriLogger(config.CreateLogger());
         }
     }
 }

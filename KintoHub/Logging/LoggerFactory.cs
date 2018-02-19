@@ -29,15 +29,16 @@ namespace KintoHub.Logging
                 config.MinimumLevel.Override("Microsoft", LogEventLevel.Information);
             }
 
-            bool fluentEnabled = (options & LogOptions.DISABLE_FLUENTD) == LogOptions.DISABLE_FLUENTD;
-            if (fluentEnabled)
+            bool fluentDisabled = (options & LogOptions.DISABLE_FLUENTD) == LogOptions.DISABLE_FLUENTD;
+
+            if (fluentDisabled == false)
             {
                 config.WriteTo.Fluentd(new FluentdSinkOptions(fluentdHost, DefaultFluentdPort));
             }
 
             var logger = config.CreateLogger();
 
-            logger.Information("FluentD Logger Enabled: {0}, host {1}, port {2}", fluentEnabled, fluentdHost, DefaultFluentdPort);
+            logger.Information("FluentD Logger Enabled: {0}, host {1}, port {2}", (fluentDisabled == false), fluentdHost, DefaultFluentdPort);
 
             return new SeriLogger(logger);
         }
